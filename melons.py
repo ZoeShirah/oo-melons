@@ -1,5 +1,6 @@
 """This file should have our order classes in it."""
 from random import randint
+from datetime import datetime
 
 
 class AbstractMelonOrder(object):
@@ -16,6 +17,10 @@ class AbstractMelonOrder(object):
         """pick a random number between 5-9 as base price"""
 
         base_price = randint(5, 9)
+        today = datetime.today()
+        if today.weekday() in range(0, 5):
+            if today.hour in range(8, 11):
+                base_price += 4
         return base_price
 
     def get_total(self):
@@ -65,6 +70,7 @@ class GovernmentMelonOrder(AbstractMelonOrder):
         super(GovernmentMelonOrder, self).__init__(species, qty, "government", 0)
         self.passed_inspection = False
 
-    def mark_inspection(self, passed):
-        if passed:
-            self.passed_inspection = True
+    def mark_inspection(self):
+        """Set passed_inspection to True"""
+
+        self.passed_inspection = True
