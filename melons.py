@@ -1,4 +1,5 @@
 """This file should have our order classes in it."""
+from random import randint
 
 
 class AbstractMelonOrder(object):
@@ -11,10 +12,16 @@ class AbstractMelonOrder(object):
         self.order_type = order_type
         self.tax = tax
 
+    def get_base_price(self):
+        """pick a random number between 5-9 as base price"""
+
+        base_price = randint(5, 9)
+        return base_price
+
     def get_total(self):
         """Calculate price."""
 
-        base_price = 5
+        base_price = self.get_base_price()
         if self.species == "Christmas":
             base_price *= 1.5
 
@@ -50,3 +57,14 @@ class InternationalMelonOrder(AbstractMelonOrder):
         """Return the country code."""
 
         return self.country_code
+
+
+class GovernmentMelonOrder(AbstractMelonOrder):
+    """A US government melon order"""
+    def __init__(self, species, qty):
+        super(GovernmentMelonOrder, self).__init__(species, qty, "government", 0)
+        self.passed_inspection = False
+
+    def mark_inspection(self, passed):
+        if passed:
+            self.passed_inspection = True
